@@ -12,7 +12,7 @@ interface DeleteDialogProps {
 	onConfirm: () => void;
 }
 
-const DeleteDialog: React.FC<DeleteDialogProps> = ({ onConfirm }) => (
+const DeleteDialog = ({ onConfirm }: DeleteDialogProps) => (
 	<Dialog>
 		<DialogTrigger asChild>
 			<Button variant="destructive">Delete</Button>

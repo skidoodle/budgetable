@@ -5,9 +5,9 @@ interface StatusBadgeProps {
 	toggleStatus: () => void;
 }
 
-const StatusBadge: React.FC<StatusBadgeProps> = ({ status, toggleStatus }) => (
+const StatusBadge = ({ status, toggleStatus }: StatusBadgeProps) => (
 	<Badge
-		variant={status === "Paid" ? "destructive" : "secondary"}
+		variant={status === "Paid" ? "paid" : "unpaid"}
 		className="cursor-pointer"
 		onClick={toggleStatus}
 	>

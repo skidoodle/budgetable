@@ -2,7 +2,7 @@ interface TotalDisplayProps {
 	total: number;
 }
 
-const TotalDisplay: React.FC<TotalDisplayProps> = ({ total }) => (
+const TotalDisplay = ({ total }: TotalDisplayProps) => (
 	<div className="mt-4 text-right font-bold text-lg">
 		Total: {total.toLocaleString()}
 		<p className="text-xs ml-1">

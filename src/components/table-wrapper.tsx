@@ -7,15 +7,7 @@ import {
 } from "@/components/ui/table";
 import TRow from "@/components/table-row";
 import TNewRow from "@/components/table-new-row";
-
-interface Budgetable {
-	id: string;
-	title: string;
-	price: number;
-	link: string;
-	note?: string;
-	status: "Paid" | "Unpaid";
-}
+import { Budgetable } from '@/lib/utils';
 
 interface TWrapperProps {
 	data: Budgetable[];
@@ -33,7 +25,7 @@ interface TWrapperProps {
 	toggleStatus: (row: Budgetable) => Promise<void>;
 }
 
-const TWrapper: React.FC<TWrapperProps> = ({
+const TWrapper = ({
 	data,
 	isEditing,
 	setData,
@@ -44,7 +36,7 @@ const TWrapper: React.FC<TWrapperProps> = ({
 	handleAddRow,
 	handleDeleteRow,
 	toggleStatus,
-}) => (
+}: TWrapperProps) => (
 	<Table>
 		<TableHeader>
 			<TableRow>

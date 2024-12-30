@@ -1,15 +1,7 @@
 import { TableRow, TableCell } from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-
-interface Budgetable {
-	id: string;
-	title: string;
-	price: number;
-	link: string;
-	note?: string;
-	status: "Paid" | "Unpaid";
-}
+import { Budgetable } from '@/lib/utils';
 
 interface TNewRowProps {
 	newRow: Budgetable;

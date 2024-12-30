@@ -5,18 +5,12 @@ import TableWrapper from "@/components/table-wrapper";
 import Header from "@/components/header";
 import TotalDisplay from "@/components/total-display";
 import { toast } from "sonner";
-interface Budgetable {
-	id: string;
-	title: string;
-	price: number;
-	link: string;
-	note?: string;
-	status: "Paid" | "Unpaid";
-}
+import { Budgetable, areRowsEqual } from "@/lib/utils";
 
 export default function App() {
-	const [data, setData] = useState<Budgetable[]>([]);
+	const [data, setData] = useState<Budgetable[]>(() => []);
 	const [isEditing, setIsEditing] = useState(false);
+	const [loading, setLoading] = useState(false);
 	const [newRow, setNewRow] = useState<Budgetable>({
 		id: "",
 		title: "",
@@ -28,7 +22,6 @@ export default function App() {
 	const [recentlyUpdatedRowId, setRecentlyUpdatedRowId] = useState<
 		string | null
 	>(null);
-	const [loading, setLoading] = useState(false);
 
 	useEffect(() => {
 		async function fetchData() {
@@ -53,32 +46,46 @@ export default function App() {
 		updatedRow: Budgetable,
 		originalRow: Budgetable,
 	) => {
-		setLoading(true);
-		try {
-			await new Promise((resolve) => setTimeout(resolve, 250));
+		if (areRowsEqual(updatedRow, originalRow)) {
+			return;
+		}
 
+		try {
+			const res = await fetch(`/pocketbase/${updatedRow.id}`, {
+				method: "PUT",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify(updatedRow),
+			});
+			if (!res.ok) throw new Error("Failed to update row");
+			const updatedData = await res.json();
 			setData((prev) =>
-				prev.map((item) => (item.id === originalRow.id ? updatedRow : item)),
+				prev.map((row) => (row.id === updatedRow.id ? updatedData : row)),
 			);
+
 			setRecentlyUpdatedRowId(updatedRow.id);
-			setTimeout(() => setRecentlyUpdatedRowId(null), 250);
-			toast.success("Row saved successfully");
+			setTimeout(() => setRecentlyUpdatedRowId(null), 500);
+			toast.success("Row updated successfully!");
 		} catch (err) {
-			toast.error("Error saving row. Please try again.");
-			console.error("Error saving row:", err);
-		} finally {
-			setLoading(false);
+			toast.error("Error updating row. Please try again.");
+			console.error("Error updating row:", err);
 		}
 	};
 
 	const handleAddRow = async () => {
-		if (!newRow.title || newRow.price <= 0) return;
+		if (!newRow.title || newRow.price <= 0) {
+			toast("Title and price are required.");
+			return;
+		}
 
-		setLoading(true);
 		try {
-			await new Promise((resolve) => setTimeout(resolve, 250));
-
-			setData((prev) => [...prev, { ...newRow, id: `${Date.now()}` }]);
+			const res = await fetch("/pocketbase", {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify(newRow),
+			});
+			if (!res.ok) throw new Error("Failed to add row");
+			const record: Budgetable = await res.json();
+			setData((prev) => [...prev, record]);
 			setNewRow({
 				id: "",
 				title: "",
@@ -87,48 +94,39 @@ export default function App() {
 				note: "",
 				status: "Unpaid",
 			});
-			toast.success("Row added successfully");
+			toast.success("Row added successfully!");
 		} catch (err) {
 			toast.error("Error adding row. Please try again.");
 			console.error("Error adding row:", err);
-		} finally {
-			setLoading(false);
 		}
 	};
 
 	const handleDeleteRow = async (id: string) => {
-		setLoading(true);
 		try {
-			await new Promise((resolve) => setTimeout(resolve, 250));
-
-			setData((prev) => prev.filter((item) => item.id !== id));
-			toast.success("Row deleted successfully");
+			const res = await fetch(`/pocketbase/${id}`, { method: "DELETE" });
+			if (!res.ok) throw new Error("Failed to delete row");
+			setData((prev) => prev.filter((row) => row.id !== id));
+			toast.success("Row deleted successfully!");
 		} catch (err) {
 			toast.error("Error deleting row. Please try again.");
 			console.error("Error deleting row:", err);
-		} finally {
-			setLoading(false);
 		}
 	};
 
 	const toggleStatus = async (row: Budgetable) => {
-		setLoading(true);
-		try {
-			await new Promise((resolve) => setTimeout(resolve, 250));
-
-			setData((prev) =>
-				prev.map((item) =>
-					item.id === row.id
-						? { ...item, status: item.status === "Paid" ? "Unpaid" : "Paid" }
-						: item,
-				),
-			);
-		} finally {
-			setLoading(false);
-		}
+		const updatedStatus: "Paid" | "Unpaid" =
+			row.status === "Paid" ? "Unpaid" : "Paid";
+		const updatedRow: Budgetable = { ...row, status: updatedStatus };
+		await handleSave(updatedRow, row);
+		setData((prev) =>
+			prev.map((item) => (item.id === row.id ? updatedRow : item)),
+		);
 	};
 
-	const total = data.reduce((sum, item) => sum + item.price, 0);
+	const total = data.reduce(
+		(sum, item) => sum + (item.status === "Unpaid" ? item.price : 0),
+		0,
+	);
 
 	return (
 		<main className="container mx-auto p-4 max-w-5xl">

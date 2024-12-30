@@ -15,22 +15,20 @@ export async function GET() {
 	try {
 		await authenticateSuperuser();
 		const records = await pb.collection("budgetable").getFullList();
-		return new Response(JSON.stringify(records), {
+		return Response.json(records, {
+			status: 200,
 			headers: { "Content-Type": "application/json" },
 		});
 	} catch (error) {
 		console.error("Error fetching data:", error);
-		return new Response(
-			JSON.stringify({
-				error: {
-					message: "Failed to fetch data",
-				},
-			}),
-			{
-				status: 500,
-				headers: { "Content-Type": "application/json" },
+		return Response.json({
+			error: {
+				message: "Failed to fetch data",
 			},
-		);
+		}, {
+			status: 500,
+			headers: { "Content-Type": "application/json" },
+		});
 	}
 }
 
@@ -39,21 +37,19 @@ export async function POST(req: Request) {
 		await authenticateSuperuser();
 		const data = await req.json();
 		const record = await pb.collection("budgetable").create(data);
-		return new Response(JSON.stringify(record), {
+		return Response.json(record, {
+			status: 201,
 			headers: { "Content-Type": "application/json" },
 		});
 	} catch (error) {
 		console.error("Error adding data:", error);
-		return new Response(
-			JSON.stringify({
-				error: {
-					message: "Failed to add data",
-				},
-			}),
-			{
-				status: 500,
-				headers: { "Content-Type": "application/json" },
+		return Response.json({
+			error: {
+				message: "Failed to add data",
 			},
-		);
+		}, {
+			status: 500,
+			headers: { "Content-Type": "application/json" },
+		});
 	}
 }

@@ -55,13 +55,17 @@ export default function App() {
 	) => {
 		setLoading(true);
 		try {
-			await new Promise((resolve) => setTimeout(resolve, 500));
+			await new Promise((resolve) => setTimeout(resolve, 250));
 
 			setData((prev) =>
 				prev.map((item) => (item.id === originalRow.id ? updatedRow : item)),
 			);
 			setRecentlyUpdatedRowId(updatedRow.id);
-			setTimeout(() => setRecentlyUpdatedRowId(null), 1000);
+			setTimeout(() => setRecentlyUpdatedRowId(null), 250);
+			toast.success("Row saved successfully");
+		} catch (err) {
+			toast.error("Error saving row. Please try again.");
+			console.error("Error saving row:", err);
 		} finally {
 			setLoading(false);
 		}
@@ -72,7 +76,7 @@ export default function App() {
 
 		setLoading(true);
 		try {
-			await new Promise((resolve) => setTimeout(resolve, 500));
+			await new Promise((resolve) => setTimeout(resolve, 250));
 
 			setData((prev) => [...prev, { ...newRow, id: `${Date.now()}` }]);
 			setNewRow({
@@ -83,6 +87,10 @@ export default function App() {
 				note: "",
 				status: "Unpaid",
 			});
+			toast.success("Row added successfully");
+		} catch (err) {
+			toast.error("Error adding row. Please try again.");
+			console.error("Error adding row:", err);
 		} finally {
 			setLoading(false);
 		}
@@ -91,9 +99,13 @@ export default function App() {
 	const handleDeleteRow = async (id: string) => {
 		setLoading(true);
 		try {
-			await new Promise((resolve) => setTimeout(resolve, 500));
+			await new Promise((resolve) => setTimeout(resolve, 250));
 
 			setData((prev) => prev.filter((item) => item.id !== id));
+			toast.success("Row deleted successfully");
+		} catch (err) {
+			toast.error("Error deleting row. Please try again.");
+			console.error("Error deleting row:", err);
 		} finally {
 			setLoading(false);
 		}
@@ -102,7 +114,7 @@ export default function App() {
 	const toggleStatus = async (row: Budgetable) => {
 		setLoading(true);
 		try {
-			await new Promise((resolve) => setTimeout(resolve, 500));
+			await new Promise((resolve) => setTimeout(resolve, 250));
 
 			setData((prev) =>
 				prev.map((item) =>

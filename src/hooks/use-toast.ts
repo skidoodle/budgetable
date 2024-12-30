@@ -1,6 +1,3 @@
-"use client";
-
-// Inspired by react-hot-toast library
 import * as React from "react";
 
 import type { ToastActionElement, ToastProps } from "@/components/ui/toast";
@@ -15,21 +12,19 @@ type ToasterToast = ToastProps & {
 	action?: ToastActionElement;
 };
 
-const actionTypes = {
-	ADD_TOAST: "ADD_TOAST",
-	UPDATE_TOAST: "UPDATE_TOAST",
-	DISMISS_TOAST: "DISMISS_TOAST",
-	REMOVE_TOAST: "REMOVE_TOAST",
-} as const;
+type ActionType = {
+	ADD_TOAST: "ADD_TOAST";
+	UPDATE_TOAST: "UPDATE_TOAST";
+	DISMISS_TOAST: "DISMISS_TOAST";
+	REMOVE_TOAST: "REMOVE_TOAST";
+};
 
 let count = 0;
 
-function genId() {
-	count = (count + 1) % Number.MAX_SAFE_INTEGER;
+function genId(): string {
+	count = (count + 1) % Number.MAX_VALUE;
 	return count.toString();
 }
-
-type ActionType = typeof actionTypes;
 
 type Action =
 	| {
@@ -55,7 +50,7 @@ interface State {
 
 const toastTimeouts = new Map<string, ReturnType<typeof setTimeout>>();
 
-const addToRemoveQueue = (toastId: string) => {
+const addToRemoveQueue = (toastId: string): void => {
 	if (toastTimeouts.has(toastId)) {
 		return;
 	}
@@ -90,14 +85,12 @@ export const reducer = (state: State, action: Action): State => {
 		case "DISMISS_TOAST": {
 			const { toastId } = action;
 
-			// ! Side effects ! - This could be extracted into a dismissToast() action,
-			// but I'll keep it here for simplicity
 			if (toastId) {
 				addToRemoveQueue(toastId);
 			} else {
-				state.toasts.forEach((toast) => {
-					addToRemoveQueue(toast.id);
-				});
+				for (const t of state.toasts) {
+					addToRemoveQueue(t.id);
+				}
 			}
 
 			return {
@@ -130,11 +123,11 @@ const listeners: Array<(state: State) => void> = [];
 
 let memoryState: State = { toasts: [] };
 
-function dispatch(action: Action) {
+function dispatch(action: Action): void {
 	memoryState = reducer(memoryState, action);
-	listeners.forEach((listener) => {
-		listener(memoryState);
-	});
+	for (let i = 0; i < listeners.length; i++) {
+		listeners[i](memoryState);
+	}
 }
 
 type Toast = Omit<ToasterToast, "id">;
@@ -179,7 +172,7 @@ function useToast() {
 				listeners.splice(index, 1);
 			}
 		};
-	}, [state]);
+	}, []);
 
 	return {
 		...state,

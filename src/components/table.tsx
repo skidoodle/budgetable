@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogFooter } from "@/components/ui/dialog";
+import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogFooter, DialogTitle } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import {
   Table,
@@ -269,6 +269,7 @@ const TableComponent = () => {
                         <Button variant="destructive">Delete</Button>
                       </DialogTrigger>
                       <DialogContent>
+                        <DialogTitle>Delete Row</DialogTitle>
                         <DialogHeader>
                           Are you sure you want to delete this row?
                         </DialogHeader>

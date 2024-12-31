@@ -2,7 +2,7 @@ FROM node:20-alpine AS base
 
 ### Dependencies ###
 FROM base AS deps
-RUN apk add --no-cache libc6-compat git
+RUN apk add --no-cache libc6-compat git curl
 
 # Setup pnpm environment
 ENV PNPM_HOME="/pnpm"

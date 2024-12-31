@@ -5,7 +5,7 @@ import TableWrapper from "@/components/table-wrapper";
 import Header from "@/components/header";
 import TotalDisplay from "@/components/total-display";
 import { toast } from "sonner";
-import { Budgetable, areRowsEqual } from "@/lib/utils";
+import { type Budgetable, areRowsEqual } from "@/lib/utils";
 
 export default function App() {
 	const [data, setData] = useState<Budgetable[]>(() => []);
@@ -132,6 +132,7 @@ export default function App() {
 		<main className="container mx-auto p-4 max-w-5xl">
 			{loading}
 			<Header isEditing={isEditing} setIsEditing={setIsEditing} />
+			<TotalDisplay total={total} />
 			<TableWrapper
 				data={data}
 				isEditing={isEditing}
@@ -144,7 +145,6 @@ export default function App() {
 				handleDeleteRow={handleDeleteRow}
 				toggleStatus={toggleStatus}
 			/>
-			<TotalDisplay total={total} />
 		</main>
 	);
 }

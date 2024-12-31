@@ -3,8 +3,14 @@ import { TableRow, TableCell } from "@/components/ui/table";
 import Link from "next/link";
 import StatusBadge from "@/components/status-badge";
 import DeleteDialog from "@/components/delete-dialog";
-import { useState } from 'react';
-import { Budgetable } from '@/lib/utils';
+import { useState } from "react";
+import type { Budgetable } from "@/lib/utils";
+import {
+	Tooltip,
+	TooltipContent,
+	TooltipProvider,
+	TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 interface TRowProps {
 	row: Budgetable;
@@ -31,7 +37,7 @@ const TRow = ({
 	const [originalRow, setOriginalRow] = useState<Budgetable>(row);
 
 	const handleInputFocus = () => {
-		setOriginalRow({...row});
+		setOriginalRow({ ...row });
 	};
 
 	return (
@@ -48,7 +54,9 @@ const TRow = ({
 						onChange={(e) =>
 							setData((prev) =>
 								prev.map((item) =>
-									item.id === row.id ? { ...item, title: e.target.value } : item,
+									item.id === row.id
+										? { ...item, title: e.target.value }
+										: item,
 								),
 							)
 						}
@@ -94,14 +102,18 @@ const TRow = ({
 						onBlur={() => handleSave(row, originalRow)}
 					/>
 				) : row.link ? (
-					<Link
-						href={row.link}
-						target="_blank"
-						rel="noopener noreferrer"
-						className="text-blue-500 underline"
-					>
-						Visit
-					</Link>
+					<TooltipProvider delayDuration={150}>
+						<Tooltip>
+							<TooltipTrigger className="text-blue-500 underline">
+								<Link href={row.link} target="_blank" rel="noopener noreferrer">
+									Visit
+								</Link>
+							</TooltipTrigger>
+							<TooltipContent className="text-white bg-black">
+								{row.link.replace(/^https?:\/\//, "")}
+							</TooltipContent>
+						</Tooltip>
+					</TooltipProvider>
 				) : (
 					<span className="text-gray-400 italic">No link</span>
 				)}
@@ -125,7 +137,10 @@ const TRow = ({
 				)}
 			</TableCell>
 			<TableCell>
-				<StatusBadge status={row.status} toggleStatus={() => toggleStatus(row)} />
+				<StatusBadge
+					status={row.status}
+					toggleStatus={() => toggleStatus(row)}
+				/>
 			</TableCell>
 			{isEditing && (
 				<TableCell>

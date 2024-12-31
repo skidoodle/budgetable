@@ -20,14 +20,17 @@ export async function GET(
 
 		const id = (await context.params)?.id;
 		if (!id) {
-			return Response.json({
-				error: {
-					message: "Missing ID in request",
+			return Response.json(
+				{
+					error: {
+						message: "Missing ID in request",
+					},
 				},
-			}, {
-				status: 400,
-				headers: { "Content-Type": "application/json" },
-			});
+				{
+					status: 400,
+					headers: { "Content-Type": "application/json" },
+				},
+			);
 		}
 
 		const record = await pb.collection("budgetable").getOne(id);
@@ -37,14 +40,17 @@ export async function GET(
 		});
 	} catch (error) {
 		console.error("Error fetching data:", error);
-		return Response.json({
-			error: {
-				message: "Failed to fetch data",
+		return Response.json(
+			{
+				error: {
+					message: "Failed to fetch data",
+				},
 			},
-		}, {
-			status: 500,
-			headers: { "Content-Type": "application/json" },
-		})
+			{
+				status: 500,
+				headers: { "Content-Type": "application/json" },
+			},
+		);
 	}
 }
 
@@ -57,33 +63,42 @@ export async function DELETE(
 
 		const id = (await context.params)?.id;
 		if (!id) {
-			return Response.json({
-				error: {
-					message: "Missing ID in request",
+			return Response.json(
+				{
+					error: {
+						message: "Missing ID in request",
+					},
 				},
-			}, {
-				status: 400,
-				headers: { "Content-Type": "application/json" },
-			});
+				{
+					status: 400,
+					headers: { "Content-Type": "application/json" },
+				},
+			);
 		}
 
 		await pb.collection("budgetable").delete(id);
-		return Response.json({
-			success: true,
-		}, {
-			status: 200,
-			headers: { "Content-Type": "application/json" },
-		});
+		return Response.json(
+			{
+				success: true,
+			},
+			{
+				status: 200,
+				headers: { "Content-Type": "application/json" },
+			},
+		);
 	} catch (error) {
 		console.error("Error deleting data:", error);
-		return Response.json({
-			error: {
-				message: "Failed to delete data",
+		return Response.json(
+			{
+				error: {
+					message: "Failed to delete data",
+				},
 			},
-		}, {
-			status: 500,
-			headers: { "Content-Type": "application/json" },
-		});
+			{
+				status: 500,
+				headers: { "Content-Type": "application/json" },
+			},
+		);
 	}
 }
 
@@ -96,26 +111,32 @@ export async function PUT(
 
 		const id = (await context.params)?.id;
 		if (!id) {
-			return Response.json({
-				error: {
-					message: "Missing ID in request",
+			return Response.json(
+				{
+					error: {
+						message: "Missing ID in request",
+					},
 				},
-			}, {
-				status: 400,
-				headers: { "Content-Type": "application/json" },
-			});
+				{
+					status: 400,
+					headers: { "Content-Type": "application/json" },
+				},
+			);
 		}
 
 		const body = await req.json();
 		if (!body.title || typeof body.price !== "number") {
-			return Response.json({
-				error: {
-					message: "Invalid data provided",
+			return Response.json(
+				{
+					error: {
+						message: "Invalid data provided",
+					},
 				},
-			}, {
-				status: 400,
-				headers: { "Content-Type": "application/json" },
-			});
+				{
+					status: 400,
+					headers: { "Content-Type": "application/json" },
+				},
+			);
 		}
 
 		const updatedRecord = await pb.collection("budgetable").update(id, body);
@@ -125,13 +146,16 @@ export async function PUT(
 		});
 	} catch (error) {
 		console.error("Error updating data:", error);
-		return Response.json({
-			error: {
-				message: "Failed to update data",
+		return Response.json(
+			{
+				error: {
+					message: "Failed to update data",
+				},
 			},
-		}, {
-			status: 500,
-			headers: { "Content-Type": "application/json" },
-		});
+			{
+				status: 500,
+				headers: { "Content-Type": "application/json" },
+			},
+		);
 	}
 }

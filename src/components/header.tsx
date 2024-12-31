@@ -13,7 +13,7 @@ const Header = ({ isEditing, setIsEditing }: AppHeaderProps) => (
 				href="/"
 				className="text-blue-500 hover:text-blue-600 transition-colors"
 				onClick={() => setIsEditing(false)}
-				>
+			>
 				Budgetable
 			</Link>
 		</h1>

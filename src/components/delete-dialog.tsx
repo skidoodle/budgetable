@@ -21,7 +21,9 @@ const DeleteDialog = ({ onConfirm }: DeleteDialogProps) => (
 			<DialogTitle>Delete Row</DialogTitle>
 			<DialogHeader>Are you sure you want to delete this row?</DialogHeader>
 			<DialogFooter>
-				<Button onClick={onConfirm}>Yes, delete</Button>
+				<Button onClick={onConfirm} variant="destructive">
+					Yes, delete
+				</Button>
 			</DialogFooter>
 		</DialogContent>
 	</Dialog>

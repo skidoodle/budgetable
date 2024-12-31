@@ -21,14 +21,17 @@ export async function GET() {
 		});
 	} catch (error) {
 		console.error("Error fetching data:", error);
-		return Response.json({
-			error: {
-				message: "Failed to fetch data",
+		return Response.json(
+			{
+				error: {
+					message: "Failed to fetch data",
+				},
 			},
-		}, {
-			status: 500,
-			headers: { "Content-Type": "application/json" },
-		});
+			{
+				status: 500,
+				headers: { "Content-Type": "application/json" },
+			},
+		);
 	}
 }
 
@@ -43,13 +46,16 @@ export async function POST(req: Request) {
 		});
 	} catch (error) {
 		console.error("Error adding data:", error);
-		return Response.json({
-			error: {
-				message: "Failed to add data",
+		return Response.json(
+			{
+				error: {
+					message: "Failed to add data",
+				},
 			},
-		}, {
-			status: 500,
-			headers: { "Content-Type": "application/json" },
-		});
+			{
+				status: 500,
+				headers: { "Content-Type": "application/json" },
+			},
+		);
 	}
 }

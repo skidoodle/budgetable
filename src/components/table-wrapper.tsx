@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/table";
 import TRow from "@/components/table-row";
 import TNewRow from "@/components/table-new-row";
-import { Budgetable } from '@/lib/utils';
+import type { Budgetable } from "@/lib/utils";
 
 interface TWrapperProps {
 	data: Budgetable[];

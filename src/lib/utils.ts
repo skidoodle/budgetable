@@ -16,14 +16,14 @@ export interface Budgetable {
 
 export const areRowsEqual = (row1: Budgetable, row2: Budgetable): boolean => {
 	const normalize = (value: string | number | undefined) =>
-	  String(value ?? "").trim();
+		String(value ?? "").trim();
 
 	const areEqual = (field: keyof Budgetable) =>
-	  field === "price"
-		? Number(row1[field]) === Number(row2[field])
-		: normalize(row1[field]) === normalize(row2[field]);
+		field === "price"
+			? Number(row1[field]) === Number(row2[field])
+			: normalize(row1[field]) === normalize(row2[field]);
 
-	return ["title", "price", "link", "note", "status"].every(field =>
-	  areEqual(field as keyof Budgetable)
+	return ["title", "price", "link", "note", "status"].every((field) =>
+		areEqual(field as keyof Budgetable),
 	);
-  };
+};

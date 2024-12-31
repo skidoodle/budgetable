@@ -1,7 +1,7 @@
 import { TableRow, TableCell } from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Budgetable } from '@/lib/utils';
+import type { Budgetable } from "@/lib/utils";
 
 interface TNewRowProps {
 	newRow: Budgetable;

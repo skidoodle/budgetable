@@ -18,7 +18,7 @@ const Header = ({ isEditing, setIsEditing }: AppHeaderProps) => (
 			</Link>
 		</h1>
 		<Button variant="ghost" onClick={() => setIsEditing(!isEditing)} size="lg">
-			<span className='text-lg'>{isEditing ? "Lock" : "Unlock"} Editing</span>
+			<span className="text-lg">{isEditing ? "Lock" : "Unlock"} Editing</span>
 		</Button>
 	</div>
 );

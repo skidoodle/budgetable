@@ -76,7 +76,7 @@ Access the app at `http://localhost:3000`.
          NEXT_PUBLIC_POCKETBASE_URL: https://pocketbase
          EMAIL: example@example.com
          PASSWORD: yourpassword
-         COLLECTION=pbcollection
+         COLLECTION: pbcollection
    volumes:
      data:
    ```

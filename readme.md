@@ -21,12 +21,14 @@ Before running the app, set the following environment variables in a `.env.local
 - `NEXT_PUBLIC_POCKETBASE_URL`: The URL of your PocketBase server.
 - `EMAIL`: The email address used to log in to the PocketBase instance.
 - `PASSWORD`: The password used to log in to the PocketBase instance.
+- `COLLECTION`: The name of the PocketBase collection to store your items.
 
 Example:
 ```env
 NEXT_PUBLIC_POCKETBASE_URL=https://pocketbase
 EMAIL=example@example.com
 PASSWORD=yourpassword
+COLLECTION=pbcollection
 ```
 
 ### Running Locally
@@ -55,6 +57,7 @@ Access the app at `http://localhost:3000`.
      -e NEXT_PUBLIC_POCKETBASE_URL=https://pocketbase \
      -e EMAIL=example@example.com \
      -e PASSWORD=yourpassword \
+     -e COLLECTION=pbcollection \
      ghcr.io/skidoodle/budgetable:main
    ```
 3. Access the app at `http://localhost:3000`.
@@ -73,6 +76,7 @@ Access the app at `http://localhost:3000`.
          NEXT_PUBLIC_POCKETBASE_URL: https://pocketbase
          EMAIL: example@example.com
          PASSWORD: yourpassword
+         COLLECTION=pbcollection
    volumes:
      data:
    ```

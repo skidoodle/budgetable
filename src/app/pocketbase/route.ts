@@ -1,6 +1,6 @@
 import pb from "@/lib/pocketbase";
 
-const { EMAIL, PASSWORD } = process.env;
+const { EMAIL, PASSWORD, COLLECTION = "budgetable" } = process.env;
 
 async function authenticateSuperuser() {
 	if (!EMAIL || !PASSWORD) {
@@ -14,7 +14,7 @@ async function authenticateSuperuser() {
 export async function GET() {
 	try {
 		await authenticateSuperuser();
-		const records = await pb.collection("budgetable").getFullList();
+		const records = await pb.collection(COLLECTION).getFullList();
 		return Response.json(records, {
 			status: 200,
 			headers: { "Content-Type": "application/json" },
@@ -39,7 +39,7 @@ export async function POST(req: Request) {
 	try {
 		await authenticateSuperuser();
 		const data = await req.json();
-		const record = await pb.collection("budgetable").create(data);
+		const record = await pb.collection(COLLECTION).create(data);
 		return Response.json(record, {
 			status: 201,
 			headers: { "Content-Type": "application/json" },

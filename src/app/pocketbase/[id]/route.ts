@@ -1,6 +1,6 @@
 import pb from "@/lib/pocketbase";
 
-const { EMAIL, PASSWORD } = process.env;
+const { EMAIL, PASSWORD, COLLECTION = "budgetable" } = process.env;
 
 async function authenticateSuperuser() {
 	if (!EMAIL || !PASSWORD) {
@@ -33,7 +33,7 @@ export async function GET(
 			);
 		}
 
-		const record = await pb.collection("budgetable").getOne(id);
+		const record = await pb.collection(COLLECTION).getOne(id);
 		return Response.json(record, {
 			status: 200,
 			headers: { "Content-Type": "application/json" },
@@ -76,7 +76,7 @@ export async function DELETE(
 			);
 		}
 
-		await pb.collection("budgetable").delete(id);
+		await pb.collection(COLLECTION).delete(id);
 		return Response.json(
 			{
 				success: true,
@@ -139,7 +139,7 @@ export async function PUT(
 			);
 		}
 
-		const updatedRecord = await pb.collection("budgetable").update(id, body);
+		const updatedRecord = await pb.collection(COLLECTION).update(id, body);
 		return Response.json(updatedRecord, {
 			status: 200,
 			headers: { "Content-Type": "application/json" },

@@ -5,7 +5,7 @@ interface TotalDisplayProps {
 }
 
 const TotalDisplay = ({ total }: TotalDisplayProps) => (
-	<div className="mx-2 text-left font-bold text-lg">
+	<div className="mx-2 text-left font-bold text-2xl">
 		Total: <NumberFlow value={total} />
 	</div>
 );

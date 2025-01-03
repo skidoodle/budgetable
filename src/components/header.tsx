@@ -8,7 +8,7 @@ interface AppHeaderProps {
 
 const Header = ({ isEditing, setIsEditing }: AppHeaderProps) => (
 	<div className="flex justify-between items-center mb-6">
-		<h1 className="text-3xl font-bold">
+		<h1 className="text-4xl font-bold">
 			<Link
 				href="/"
 				className="text-blue-500 hover:text-blue-600 transition-colors"
@@ -17,8 +17,8 @@ const Header = ({ isEditing, setIsEditing }: AppHeaderProps) => (
 				Budgetable
 			</Link>
 		</h1>
-		<Button variant="ghost" onClick={() => setIsEditing(!isEditing)}>
-			{isEditing ? "Lock" : "Unlock"} Editing
+		<Button variant="ghost" onClick={() => setIsEditing(!isEditing)} size="lg">
+			<span className='text-lg'>{isEditing ? "Lock" : "Unlock"} Editing</span>
 		</Button>
 	</div>
 );

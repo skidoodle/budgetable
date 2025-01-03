@@ -84,7 +84,7 @@ const TRow = ({
 						onBlur={() => handleSave(row, originalRow)}
 					/>
 				) : (
-					<span>{row.price.toLocaleString()} HUF</span>
+					<span>{row.price.toLocaleString()}</span>
 				)}
 			</TableCell>
 			<TableCell>

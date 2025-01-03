@@ -37,7 +37,7 @@ const TWrapper = ({
 	handleDeleteRow,
 	toggleStatus,
 }: TWrapperProps) => (
-	<Table>
+	<Table className="text-lg">
 		<TableHeader>
 			<TableRow>
 				<TableHead>Title</TableHead>

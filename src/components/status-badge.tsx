@@ -8,7 +8,7 @@ interface StatusBadgeProps {
 const StatusBadge = ({ status, toggleStatus }: StatusBadgeProps) => (
 	<Badge
 		variant={status === "Paid" ? "paid" : "unpaid"}
-		className="cursor-pointer text-[16px]"
+		className="cursor-pointer text-[16px] w-24 flex items-center justify-center"
 		onClick={toggleStatus}
 	>
 		{status}
